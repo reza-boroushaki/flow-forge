@@ -216,11 +216,12 @@ body {
 
 /* Project Form */
 .form {
-  @apply flex-col w-full lg:pt-24 pt-12 gap-10 text-lg max-w-5xl mx-auto;
+  @apply flex-col w-full lg:pt-16 pt-12 gap-10 text-lg max-w-5xl mx-auto;
 }
 
+/* lg:min-h-[400px] */
 .form_image-container {
-  @apply w-full lg:min-h-[400px] min-h-[200px] relative;
+  @apply w-full min-h-[200px] relative;
 }
 
 .form_image-label {
@@ -228,10 +229,23 @@ body {
 }
 
 .form_image-input {
-  @apply absolute z-30 w-full opacity-0 h-full cursor-pointer;
+  @apply absolute z-30 w-full opacity-0 h-full cursor-pointer top-0 left-0;
 }
 
 /* Profile Projects */
 .profile_projects {
   @apply grid xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8 mt-5;
+}
+
+.drawerFormError {
+  @apply self-start text-[16px] -mt-4 text-red-600;
+}
+
+.drawerContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.drawerContainer {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }

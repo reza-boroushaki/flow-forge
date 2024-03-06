@@ -6,6 +6,22 @@ export const NavLinks = [
   { href: "/", key: "Hire Developers", text: "Hire Developers" },
 ];
 
+export const categoryFilters = [
+  "Frontend",
+  "Backend",
+  "Full-Stack",
+  "Mobile",
+  "UI/UX",
+  "Game Dev",
+  "DevOps",
+  "Data Science",
+  "Machine Learning",
+  "Cybersecurity",
+  "Blockchain",
+  "E-commerce",
+  "Chatbots",
+];
+
 export const footerLinks = [
   {
     title: "For developers",
@@ -76,3 +92,5 @@ export const footerLinks = [
     ],
   },
 ];
+
+export const MAX_FILE_SIZE: number = 1024 * 1024 * 5;
