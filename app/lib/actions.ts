@@ -47,17 +47,23 @@ export const uploadImage = async (imagePath: string) => {
 
 export const createProject = async (data: FormState, creatorId: string) => {
   try {
-    // const imageUrl = await uploadImage(data.image);
+    const imageUrl = await uploadImage(data.image);
 
-    console.log("********CCreatorId", creatorId);
-
-    await Project.create({
+    const project = await Project.create({
       ...data,
-      image: "imageUrl.url",
+      image: imageUrl.url,
       createdBy: creatorId,
     });
 
-    // console.log("User updated with new project:", newProject);
+    await User.findByIdAndUpdate(
+      creatorId,
+      {
+        $push: {
+          projects: project,
+        },
+      },
+      { new: true, useFindAndModify: false }
+    );
   } catch (error) {
     console.log(error);
   }

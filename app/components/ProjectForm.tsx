@@ -73,18 +73,13 @@ const ProjectForm = ({ type, session }: Props) => {
   };
 
   const onSubmit = async (data: FormState) => {
-    console.log("isSubmitted", isSubmitted);
-    console.log("data", data);
-    // console.log("categoryRef", categoryValue);
-
     data.image = imageURI;
     data.category = categoryValue;
     try {
       if (type === "create") {
-        console.log("usere id: ", session);
         await createProject(data, session?.user?.id);
 
-        // router.push("/");
+        router.push("/");
       }
 
       // if (type === "edit") {

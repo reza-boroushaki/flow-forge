@@ -50,8 +50,6 @@ export const authOptions: NextAuthOptions = {
           user: {
             ...session.user,
             id: data?._id.toString(),
-
-            // ...data?.user,
           },
         };
 
@@ -69,7 +67,7 @@ export const authOptions: NextAuthOptions = {
         };
 
         // create user if not exist
-        if (!userExists.user) {
+        if (!userExists) {
           await createUser(
             user.name as string,
             user.email as string,
