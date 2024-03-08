@@ -2,6 +2,7 @@
 
 import React, { ChangeEvent, useState } from "react";
 import Image from "next/image";
+import { Loader2 } from "lucide-react";
 import { FormState, SessionInterface } from "@/common.types";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
@@ -11,6 +12,9 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MAX_FILE_SIZE, categoryFilters } from "../constant";
+import { createProject } from "../lib/actions";
+import { useRouter } from "next/navigation";
+import { DrawerClose } from "@/components/ui/drawer";
 
 type Props = {
   type: string;
@@ -25,11 +29,14 @@ const schema = z.object({
   image: z.any().refine((files) => {
     return files?.[0]?.size <= MAX_FILE_SIZE;
   }, `Max image size is 5MB.`),
+  description: z.string(),
+  liveSiteUrl: z.string(),
+  githubUrl: z.string(),
 });
 
 const ProjectForm = ({ type, session }: Props) => {
   const [imageURI, setImageURI] = useState<string>("");
-  const [categoryValue, setCategoryValue] = useState<string[]>([]);
+  const [categoryValue, setCategoryValue] = useState<string>("");
   const { register, handleSubmit, formState } = useForm<FormState>({
     defaultValues: {
       title: "",
@@ -41,6 +48,8 @@ const ProjectForm = ({ type, session }: Props) => {
     },
     resolver: zodResolver(schema),
   });
+
+  const router = useRouter();
 
   const { errors, isSubmitting, isSubmitted } = formState;
 
@@ -63,11 +72,35 @@ const ProjectForm = ({ type, session }: Props) => {
     };
   };
 
-  const onSubmit = (data: FormState) => {
-    console.log("isSubmitting", isSubmitting);
+  const onSubmit = async (data: FormState) => {
     console.log("isSubmitted", isSubmitted);
-    console.log(data);
-    console.log("categoryRef", categoryValue);
+    console.log("data", data);
+    // console.log("categoryRef", categoryValue);
+
+    data.image = imageURI;
+    data.category = categoryValue;
+    try {
+      if (type === "create") {
+        console.log("usere id: ", session);
+        await createProject(data, session?.user?.id);
+
+        // router.push("/");
+      }
+
+      // if (type === "edit") {
+      //     await updateProject(form, project?.id as string, token)
+
+      //     router.push("/")
+      // }
+    } catch (error) {
+      alert(
+        `Failed to ${
+          type === "create" ? "create" : "edit"
+        } a project. Try again!`
+      );
+    } finally {
+      // setSubmitting(false)
+    }
   };
 
   return (
@@ -78,8 +111,9 @@ const ProjectForm = ({ type, session }: Props) => {
     >
       <div className="form_image-container">
         <label htmlFor="poster" className="flexCenter form_image-label">
-          {/* {!form.image && 'Choose a poster for your project'} */}
-          Choose a poster for your project
+          <span className={`${!imageURI ? "opacity-100" : "opacity-0"}`}>
+            Choose a poster for your project
+          </span>
         </label>
         <Input
           type="file"
@@ -136,7 +170,7 @@ const ProjectForm = ({ type, session }: Props) => {
         <label className="w-full text-gray-100">Category</label>
         <ToggleGroup
           variant="outline"
-          type="multiple"
+          type="single"
           className="flex flex-wrap justify-start"
           onValueChange={(value) => setCategoryValue(value)}
         >
@@ -148,23 +182,37 @@ const ProjectForm = ({ type, session }: Props) => {
         </ToggleGroup>
       </div>
 
-      <div className="flexStart w-full">
-        <Button className="w-full" type="submit">
+      <div className="w-full">
+        <Button className="w-full" type="submit" disabled={isSubmitting}>
           {type === "create" ? (
             <>
-              <Image
-                src={"/plus.svg"}
-                width={14}
-                height={14}
-                alt="left icon"
-                className="mr-2 h-4 w-4"
-              />
+              {isSubmitting ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Image
+                  src={"/plus.svg"}
+                  width={14}
+                  height={14}
+                  alt="left icon"
+                  className="mr-2 h-4 w-4"
+                />
+              )}
               Create
             </>
           ) : (
             "Edit"
           )}
         </Button>
+        <DrawerClose asChild className="w-full mt-4">
+          <Button
+            variant="outline"
+            className="w-full"
+            disabled={isSubmitting}
+            onClick={() => router.push("/")}
+          >
+            Cancel
+          </Button>
+        </DrawerClose>
       </div>
     </form>
   );

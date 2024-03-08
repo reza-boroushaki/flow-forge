@@ -1,16 +1,8 @@
 import { Schema, model, models } from "mongoose";
+import { projectSchema } from "./Project";
+import { UserProfile } from "@/common.types";
 
-interface UserDoc {
-  name: string;
-  email: string;
-  avatarUrl: string;
-  description?: string;
-  githubUrl?: string;
-  linkedinUrl?: string;
-  projects?: Schema.Types.ObjectId[];
-}
-
-const userSchema = new Schema<UserDoc>({
+export const userSchema = new Schema<UserProfile>({
   name: {
     type: String,
     minlength: 2,
@@ -45,7 +37,7 @@ const userSchema = new Schema<UserDoc>({
   githubUrl: {
     type: String,
     validate: {
-      validator: function (v: string | undefined) {
+      validator: function (v: string | null) {
         if (!v) return true; // If not provided, it's okay
         try {
           new URL(v);
@@ -60,7 +52,7 @@ const userSchema = new Schema<UserDoc>({
   linkedinUrl: {
     type: String,
     validate: {
-      validator: function (v: string | undefined) {
+      validator: function (v: string | null) {
         if (!v) return true; // If not provided, it's okay
         try {
           new URL(v);
@@ -72,9 +64,10 @@ const userSchema = new Schema<UserDoc>({
       message: "Invalid URL format",
     },
   },
-  projects: [{ type: Schema.Types.ObjectId, ref: "Project" }],
+  // projects: [{ type: Schema.Types.ObjectId, ref: "Project" }],
+  projects: [projectSchema],
 });
 
-const User = models.User || model<UserDoc>("User", userSchema);
+const User = models?.User || model<UserProfile>("User", userSchema);
 
 export default User;

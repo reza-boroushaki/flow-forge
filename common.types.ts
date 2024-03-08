@@ -2,11 +2,11 @@ import { User, Session } from "next-auth";
 
 export type FormState = {
   title: string;
-  description: string;
+  description?: string;
   image: string;
-  liveSiteUrl: string;
-  githubUrl: string;
-  category: string;
+  liveSiteUrl?: string;
+  githubUrl?: string;
+  category?: string;
 };
 
 export interface ProjectInterface {
@@ -16,17 +16,17 @@ export interface ProjectInterface {
   liveSiteUrl: string;
   githubUrl: string;
   category: string;
-  id: string;
+  // id: string;
   createdBy: {
     name: string;
     email: string;
     avatarUrl: string;
-    id: string;
+    // id: string;
   };
 }
 
 export interface UserProfile {
-  id: string;
+  // id: string;
   name: string;
   email: string;
   description: string | null;
