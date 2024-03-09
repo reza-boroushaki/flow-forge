@@ -26,11 +26,11 @@ export default async function Home() {
           <ProjectCard
             key={item?._id.toString()}
             title={item?.title}
-            _id={item?._id}
+            _id={item?._id.toString()}
             image={item?.image}
-            name={item?.createdBy[0].name}
-            avatarUrl={item?.createdBy[0].avatarUrl}
-            userId={item?.createdBy[0]._id}
+            name={item?.createdBy.name}
+            avatarUrl={item?.createdBy.avatarUrl}
+            userId={item?.createdBy._id.toString()}
           />
         ))}
       </section>
