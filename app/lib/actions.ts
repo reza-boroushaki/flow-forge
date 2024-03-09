@@ -47,6 +47,7 @@ export const uploadImage = async (imagePath: string) => {
 
 export const createProject = async (data: FormState, creatorId: string) => {
   try {
+    await connectDB();
     const imageUrl = await uploadImage(data.image);
 
     const project = await Project.create({
@@ -67,4 +68,10 @@ export const createProject = async (data: FormState, creatorId: string) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const fetchAllProjects = async (category?: string) => {
+  await connectDB();
+  const cat = category ? { category } : {};
+  return await Project.find(cat).populate("createdBy");
 };

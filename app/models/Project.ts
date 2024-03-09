@@ -22,7 +22,7 @@ export const projectSchema = new Schema<ProjectInterface>({
   category: {
     type: String,
   },
-  createdBy: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  createdBy: { type: Schema.Types.ObjectId, ref: "User" },
 });
 
 const Project =
