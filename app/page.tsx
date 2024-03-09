@@ -3,7 +3,7 @@ import ProjectCard from "./components/ProjectCard";
 import { fetchAllProjects } from "./lib/actions";
 
 export default async function Home() {
-  const data = await fetchAllProjects();
+  const data = (await fetchAllProjects()) as ProjectInterface[];
 
   if (data.length === 0) {
     return (

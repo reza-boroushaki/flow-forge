@@ -71,7 +71,43 @@ export const createProject = async (data: FormState, creatorId: string) => {
 };
 
 export const fetchAllProjects = async (category?: string) => {
-  await connectDB();
-  const cat = category ? { category } : {};
-  return await Project.find(cat).populate("createdBy");
+  try {
+    await connectDB();
+    const cat = category ? { category } : {};
+    return await Project.find(cat).populate("createdBy");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getProject = async (id: string) => {
+  try {
+    await connectDB();
+    return await Project.findById(id).populate("createdBy");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getUserProjects = async (id: string, last?: number) => {
+  try {
+    await connectDB();
+    return await User.findById(id, { projects: { $slice: last } });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteProject = async (projectId: string, userId: string) => {
+  try {
+    await connectDB();
+    await User.findByIdAndUpdate(
+      userId,
+      { $pull: { projects: projectId } },
+      { new: true }
+    );
+    await Project.findByIdAndDelete(projectId);
+  } catch (error) {
+    console.log(error);
+  }
 };
