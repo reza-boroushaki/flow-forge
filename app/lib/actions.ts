@@ -4,6 +4,7 @@ import { FormState } from "@/common.types";
 import User from "../models/User";
 import { connectDB } from "./connect";
 import Project from "../models/Project";
+import { isBase64DataURL } from "../constant";
 
 export const getUser = async (email: string) => {
   try {
@@ -83,7 +84,7 @@ export const fetchAllProjects = async (category?: string) => {
 export const getProject = async (id: string) => {
   try {
     await connectDB();
-    return await Project.findById(id).populate("createdBy");
+    return await Project.findById(id).populate("createdBy").lean();
   } catch (error) {
     console.log(error);
   }
@@ -109,5 +110,23 @@ export const deleteProject = async (projectId: string, userId: string) => {
     await Project.findByIdAndDelete(projectId);
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const updateProject = async (data: FormState, projectId: string) => {
+  let updatedForm = { ...data };
+  const isUploadingNewImage = isBase64DataURL(data.image);
+  try {
+    if (isUploadingNewImage) {
+      const imageUrl = await uploadImage(data.image);
+      if (imageUrl.url) {
+        updatedForm = { ...updatedForm, image: imageUrl.url };
+      }
+    }
+
+    await connectDB();
+    await Project.updateOne({ _id: projectId }, updatedForm);
+  } catch (error) {
+    console.log("Update operation failed:", error);
   }
 };

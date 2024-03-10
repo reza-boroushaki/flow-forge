@@ -3,7 +3,7 @@
 import React, { ChangeEvent, useState } from "react";
 import Image from "next/image";
 import { Loader2 } from "lucide-react";
-import { FormState, SessionInterface } from "@/common.types";
+import { FormState, ProjectInterface, SessionInterface } from "@/common.types";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,40 +11,41 @@ import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MAX_FILE_SIZE, categoryFilters } from "../constant";
-import { createProject } from "../lib/actions";
+import { MAX_FILE_SIZE, categoryFilters, isBase64DataURL } from "../constant";
+import { createProject, updateProject } from "../lib/actions";
 import { useRouter } from "next/navigation";
 import { DrawerClose } from "@/components/ui/drawer";
 
 type Props = {
   type: string;
   session: SessionInterface;
-  // project?: ProjectInterface
+  project?: ProjectInterface;
 };
 
-const schema = z.object({
-  title: z.string().min(1, {
-    message: "Title is required",
-  }),
-  image: z.any().refine((files) => {
-    return files?.[0]?.size <= MAX_FILE_SIZE;
-  }, `Max image size is 5MB.`),
-  description: z.string(),
-  liveSiteUrl: z.string(),
-  githubUrl: z.string(),
-});
+const ProjectForm = ({ type, session, project }: Props) => {
+  const [imageURI, setImageURI] = useState<string>(project?.image || "");
+  const [categoryValue, setCategoryValue] = useState<string>(
+    project?.category || ""
+  );
 
-const ProjectForm = ({ type, session }: Props) => {
-  const [imageURI, setImageURI] = useState<string>("");
-  const [categoryValue, setCategoryValue] = useState<string>("");
+  const schema = z.object({
+    title: z.string().min(1, {
+      message: "Title is required",
+    }),
+    image: z.any(),
+    description: z.string(),
+    liveSiteUrl: z.string(),
+    githubUrl: z.string(),
+  });
+
   const { register, handleSubmit, formState } = useForm<FormState>({
     defaultValues: {
-      title: "",
-      description: "",
-      image: "",
-      liveSiteUrl: "",
-      githubUrl: "",
-      category: "",
+      title: project?.title || "",
+      description: project?.description || "",
+      image: project?.image || "",
+      liveSiteUrl: project?.liveSiteUrl || "",
+      githubUrl: project?.githubUrl || "",
+      category: project?.category || "",
     },
     resolver: zodResolver(schema),
   });
@@ -78,15 +79,11 @@ const ProjectForm = ({ type, session }: Props) => {
     try {
       if (type === "create") {
         await createProject(data, session?.user?.id);
-
-        router.push("/");
+      } else if (type === "edit") {
+        await updateProject(data, project?._id as string);
       }
 
-      // if (type === "edit") {
-      //     await updateProject(form, project?.id as string, token)
-
-      //     router.push("/")
-      // }
+      router.push("/");
     } catch (error) {
       alert(
         `Failed to ${
@@ -167,6 +164,7 @@ const ProjectForm = ({ type, session }: Props) => {
           variant="outline"
           type="single"
           className="flex flex-wrap justify-start"
+          defaultValue={categoryValue}
           onValueChange={(value) => setCategoryValue(value)}
         >
           {categoryFilters.map((filter, index) => (
@@ -195,7 +193,14 @@ const ProjectForm = ({ type, session }: Props) => {
               Create
             </>
           ) : (
-            "Edit"
+            <>
+              {isSubmitting ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                ""
+              )}
+              Edit
+            </>
           )}
         </Button>
         <DrawerClose asChild className="w-full mt-4">
