@@ -1,14 +1,19 @@
 import { ProjectInterface } from "@/common.types";
 import ProjectCard from "./components/ProjectCard";
 import { fetchAllProjects } from "./lib/actions";
+import Categories from "./components/Categories";
 
-export default async function Home() {
-  const data = (await fetchAllProjects()) as ProjectInterface[];
+export default async function Home({
+  searchParams: { category },
+}: {
+  searchParams: { category: string };
+}) {
+  const data = (await fetchAllProjects(category)) as ProjectInterface[];
 
   if (data.length === 0) {
     return (
       <section className="flexStart flex-col paddings">
-        {/* <Categories /> */}
+        <Categories />
 
         <p className="no-result-text text-center">
           No projects found, go create some first.
@@ -19,7 +24,7 @@ export default async function Home() {
 
   return (
     <section className="flexStart flex-col paddings mb-16">
-      {/* <Categories /> */}
+      <Categories />
 
       <section className="projects-grid">
         {data?.map((item) => (
