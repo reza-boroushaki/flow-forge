@@ -7,7 +7,7 @@ export const connectDB = async () => {
   }
   try {
     await mongoose.connect(
-      "mongodb+srv://inwordsDB:0m4tJk3buMxPpRfR@in-words.l980mql.mongodb.net/flowforge?retryWrites=true&w=majority"
+      process.env.MONGODB_URI!
       //   { dbName: "flowforge" }
       //   "mongodb+srv://inwordsDB:0m4tJk3buMxPpRfR@in-words.l980mql.mongodb.net/flowforge"
     );
