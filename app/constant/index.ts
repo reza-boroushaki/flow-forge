@@ -99,3 +99,86 @@ export function isBase64DataURL(value: string) {
   const base64Regex = /^data:image\/[a-z]+;base64,/;
   return base64Regex.test(value);
 }
+
+export const heroProdcts = [
+  {
+    thumbnail: "/hero/prod-1.jpg",
+    link: `<a href="https://www.vecteezy.com/free-vector/landing-page-background">Landing Page Background Vectors by Vecteezy</a>`,
+    title: "Modern",
+  },
+  {
+    thumbnail: "/hero/prod-2.jpg",
+    link: `<a href="https://www.vecteezy.com/free-vector/landing-page-background">Landing Page Background Vectors by Vecteezy</a>`,
+    title: "Fluid",
+  },
+  {
+    thumbnail: "/hero/prod-3.jpg",
+    link: `<a href="https://www.vecteezy.com/free-vector/landing-page-background">Landing Page Background Vectors by Vecteezy</a>`,
+    title: "Liquid",
+  },
+  {
+    thumbnail: "/hero/prod-4.jpg",
+    link: `<a href="https://www.vecteezy.com/free-vector/landing-page-background">Landing Page Background Vectors by Vecteezy</a>`,
+    title: "Abstract",
+  },
+  {
+    thumbnail: "/hero/prod-1.jpg",
+    link: `<a href="https://www.vecteezy.com/free-vector/landing-page-background">Landing Page Background Vectors by Vecteezy</a>`,
+    title: "Modernizer",
+  },
+  {
+    thumbnail: "/hero/prod-2.jpg",
+    link: `<a href="https://www.vecteezy.com/free-vector/landing-page-background">Landing Page Background Vectors by Vecteezy</a>`,
+    title: "Fluidio",
+  },
+  {
+    thumbnail: "/hero/prod-3.jpg",
+    link: `<a href="https://www.vecteezy.com/free-vector/landing-page-background">Landing Page Background Vectors by Vecteezy</a>`,
+    title: "Liquidzo",
+  },
+  {
+    thumbnail: "/hero/prod-4.jpg",
+    link: `<a href="https://www.vecteezy.com/free-vector/landing-page-background">Landing Page Background Vectors by Vecteezy</a>`,
+    title: "Abstractor",
+  },
+  {
+    thumbnail: "/hero/prod-1.jpg",
+    link: `<a href="https://www.vecteezy.com/free-vector/landing-page-background">Landing Page Background Vectors by Vecteezy</a>`,
+    title: "Slick",
+  },
+  {
+    thumbnail: "/hero/prod-2.jpg",
+    link: `<a href="https://www.vecteezy.com/free-vector/landing-page-background">Landing Page Background Vectors by Vecteezy</a>`,
+    title: "Flow",
+  },
+  {
+    thumbnail: "/hero/prod-3.jpg",
+    link: `<a href="https://www.vecteezy.com/free-vector/landing-page-background">Landing Page Background Vectors by Vecteezy</a>`,
+    title: "Liqo",
+  },
+  {
+    thumbnail: "/hero/prod-4.jpg",
+    link: `<a href="https://www.vecteezy.com/free-vector/landing-page-background">Landing Page Background Vectors by Vecteezy</a>`,
+    title: "Abstractorized",
+  },
+  {
+    thumbnail: "/hero/prod-1.jpg",
+    link: `<a href="https://www.vecteezy.com/free-vector/landing-page-background">Landing Page Background Vectors by Vecteezy</a>`,
+    title: "Stone",
+  },
+  {
+    thumbnail: "/hero/prod-2.jpg",
+    link: `<a href="https://www.vecteezy.com/free-vector/landing-page-background">Landing Page Background Vectors by Vecteezy</a>`,
+    title: "Zinc",
+  },
+  {
+    thumbnail: "/hero/prod-3.jpg",
+    link: `<a href="https://www.vecteezy.com/free-vector/landing-page-background">Landing Page Background Vectors by Vecteezy</a>`,
+    title: "Alo",
+  },
+  {
+    thumbnail: "/hero/prod-4.jpg",
+    link: `<a href="https://www.vecteezy.com/free-vector/landing-page-background">Landing Page Background Vectors by Vecteezy</a>`,
+    title: "Squared",
+  },
+];

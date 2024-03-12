@@ -19,6 +19,7 @@
     "class-variance-authority": "^0.7.0",
     "cloudinary": "^2.0.2",
     "clsx": "^2.1.0",
+    "framer-motion": "^11.0.12",
     "graphql-request": "^6.1.0",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.344.0",
