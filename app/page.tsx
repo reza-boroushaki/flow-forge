@@ -10,7 +10,7 @@ export default async function Home({
 }) {
   const data = (await fetchAllProjects(category)) as ProjectInterface[];
 
-  if (data.length === 0) {
+  if (data?.length === 0) {
     return (
       <section className="flexStart flex-col paddings">
         <Categories />
