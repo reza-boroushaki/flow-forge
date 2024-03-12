@@ -17,6 +17,7 @@ export default async function Home({
       <HeroParallax products={heroProdcts} />
 
       <Categories />
+
       <section className="flexStart flex-col paddings mb-16">
         {data?.length === 0 ? (
           <p className="no-result-text text-center">
