@@ -13,10 +13,10 @@ const Categories = () => {
   const handleTags = (cat: string) => {
     const params = new URLSearchParams(searchParams);
     params.set("category", cat);
-    replace(`${pathname}?${params.toString()}`);
+    replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
   return (
-    <div className="flexBetween w-full gap-5 flex-wrap">
+    <div className="flexBetween w-full gap-5 flex-wrap mb-12">
       <ul className="flex gap-2 overflow-auto">
         {categoryFilters.map((filter) => (
           <button
